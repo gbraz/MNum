@@ -17,4 +17,5 @@ int main(){
 	std::cout<< "f'(0.5) = " << n.funD(0.5, h) << std::endl;
 	std::cout<< "x1 = " << n.passoIterativo(0.5, a) << std::endl;
 	std::cout<< "raiz = " << n.calcularRaiz(0.5, a, 0.0001, 0.0001) << std::endl;
+	std::cout<< "raiz = " << n.calcularRaizSec(0.5, a, 0.0001, 0.0001) << std::endl;
 }

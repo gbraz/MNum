@@ -1,5 +1,5 @@
 #include "newtonraphson.h"
-
+#include <iostream>
 NewtonRaphson::NewtonRaphson(){
 
 }
@@ -28,6 +28,7 @@ double NewtonRaphson::passoIterativo(double x, std::vector<double> a){
 	return x - fx/fdx;
 }
 
+
 double NewtonRaphson::calcularRaiz(double x, std::vector<double> a, double e1, double e2){
 	double xk;
 	std::vector<double> h;
@@ -41,3 +42,24 @@ double NewtonRaphson::calcularRaiz(double x, std::vector<double> a, double e1, d
 	
 	return x;
 }
+
+
+double NewtonRaphson::calcularRaizSec(double x, std::vector<double> a, double e1, double e2){
+	double  s, xk, fx, fxk = 999;
+	std::vector<double> h;
+	xk = x;
+	x = 0;
+	while (std::abs(x - xk) > e1 || std::abs(fxk) > e2){
+		fx = fun(x, a, h);
+		h.clear();
+		fxk = fun(xk, a, h);
+		h.clear();
+		std::cout << "fk " << fxk << " fx " << fx << std::endl;
+		s = xk;
+		xk = xk - fxk*(xk - x)/(fxk - fx);
+		x = s;
+	}
+	
+	return xk;
+}
+
