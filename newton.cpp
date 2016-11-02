@@ -28,7 +28,7 @@ std::vector<double> Newton::horner(double c, std::vector<double> a){
 	return f;
 }
 
-double Newton::passoIterativo(double x, std::vector<double> a){
+double Newton::passoIter(double x, std::vector<double> a){
 	std::vector<double> f;
 
 	f = horner(x, a);
@@ -42,7 +42,7 @@ double Newton::calcularRaiz(double x, std::vector<double> a, double e1, double e
 
 	do{
 		xk = x;
-		x = passoIterativo(xk, a);
+		x = passoIter(xk, a);
 
 	}while (std::abs(x - xk) > e1 || std::abs(fun(x, a)) > e2);
 	
@@ -50,22 +50,16 @@ double Newton::calcularRaiz(double x, std::vector<double> a, double e1, double e
 }
 
 
-/*double NewtonRaphson::calcularRaizSec(double x, std::vector<double> a, double e1, double e2){
-	double  s, xk, fx, fxk = 999;
-	std::vector<double> h;
-	xk = x;
-	x = 0;
-	while (std::abs(x - xk) > e1 || std::abs(fxk) > e2){
-		fx = fun(x, a, h);
-		h.clear();
-		fxk = fun(xk, a, h);
-		h.clear();
-		std::cout << "fk " << fxk << " fx " << fx << std::endl;
-		s = xk;
-		xk = xk - fxk*(xk - x)/(fxk - fx);
-		x = s;
-	}
+double Newton::calcularRaizS(double x0, double x1, std::vector<double>& a, double e1, double e2){
+	double f0, f1, temp;
+
+	do{
+		f0 = fun(x0, a);
+		f1 = fun(x1, a);
+		temp = x1;
+		x1 = x1 - f1*(x1 - x0)/(f1 - f0);
+		x0 = temp;
+	}while(std::abs(x0 - x1) > e1 || std::abs(fun(x1, a)) > e2);
 	
-	return xk;
+	return x1;
 }
-*/
