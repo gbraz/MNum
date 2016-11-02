@@ -1,5 +1,6 @@
 #include "newton.h"
 #include <iostream>
+
 Newton::Newton(){
 
 }
@@ -50,16 +51,19 @@ double Newton::calcularRaiz(double x, std::vector<double> a, double e1, double e
 }
 
 
-double Newton::calcularRaizS(double x0, double x1, std::vector<double>& a, double e1, double e2){
+double Newton::calcularRaizSec(double x0, double x1, std::vector<double> a, double e1, double e2){
 	double f0, f1, temp;
 
+	f0 = fun(x0, a);
+	f1 = fun(x1, a);
+	
 	do{
-		f0 = fun(x0, a);
-		f1 = fun(x1, a);
 		temp = x1;
 		x1 = x1 - f1*(x1 - x0)/(f1 - f0);
 		x0 = temp;
-	}while(std::abs(x0 - x1) > e1 || std::abs(fun(x1, a)) > e2);
+		f0 = f1;
+		f1 = fun(x1, a);
+	}while(std::abs(x0 - x1) > e1 || std::abs(f1) > e2);
 	
 	return x1;
 }

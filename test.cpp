@@ -13,9 +13,7 @@ int main(){
 	a.push_back(3);
 
 	std::cout<< "f(0.5) = " << n.fun(0.5, a) << std::endl;
-	//std::cout<< h[0] << h[1] << h[2] << h[3] << std::endl;
-	//std::cout<< "f'(0.5) = " << n.funD(0.5, h) << std::endl;
 	std::cout<< "x1 = " << n.passoIter(0.5, a) << std::endl;
 	std::cout<< "raiz = " << n.calcularRaiz(0.5, a, 0.0001, 0.0001) << std::endl;
-	std::cout<< "raiz = " << n.calcularRaizS(0, 0.5, a, 0.0001, 0.0001) << std::endl;
+	std::cout<< "raiz = " << n.calcularRaizSec(0, 0.5, a, 0.0001, 0.0001) << std::endl;
 }
