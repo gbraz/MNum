@@ -43,6 +43,8 @@ double Newton::passoIter(double x, std::vector<double> a, std::vector<std::vecto
 	return x - f[0]/f[1];
 }
 
+
+
 std::vector<std::vector<double> > Newton::calcularRaiz(double x, std::vector<double> a, double e1, double e2){
 	double xk, fk;
 	std::vector<std::vector<double> > res;
@@ -52,38 +54,35 @@ std::vector<std::vector<double> > Newton::calcularRaiz(double x, std::vector<dou
 		x = passoIter(xk, a, res);
 
 	}while (std::abs(x - xk) > e1 || std::abs(fun(x, a)) > e2);
-	std::cout << "test" << x << std::endl;
+	
 	return res;
+}
+
+void Newton::salvarResSec(double x, double fx, std::vector<std::vector<double> >& res){
+	std::vector<double> iteracao;
+
+	iteracao.push_back(x);	//armazenando os resultados da iteração
+	iteracao.push_back(fx);
+	res.push_back(iteracao);
 }
 
 
 std::vector<std::vector<double> > Newton::calcularRaizSec(double x0, double x1, std::vector<double> a, double e1, double e2){
 	double f0, f1, temp;
-	//std::vector<std::vector<double> > res;
-	std::vector<double> linha;
 	std::vector<std::vector<double> > res;
-	f0 = fun(x0, a);
-	f1 = fun(x1, a);
 	
-	linha.push_back(x0); //armazenando os resultados para o vetor res
-	linha.push_back(f0);
-	res.push_back(linha);
-	linha.clear();
-	linha.push_back(x1);
-	linha.push_back(f1);
-	res.push_back(linha);
-	linha.clear();
-
+	f0 = fun(x0, a);
+	salvarResSec(x0, f0, res); //armazenando os resultados para o vetor res
+	f1 = fun(x1, a);
+	salvarResSec(x1, f1, res); 
+	
 	do{
 		temp = x1;
 		x1 = x1 - f1*(x1 - x0)/(f1 - f0);
 		x0 = temp;
 		f0 = f1;
 		f1 = fun(x1, a);
-		linha.push_back(x1);
-		linha.push_back(f1);
-		res.push_back(linha);
-		linha.clear();
+		salvarResSec(x1, f1, res); //armazenando os resultados para o vetor res
 	}while(std::abs(x0 - x1) > e1 || std::abs(f1) > e2);
 	
 	return res;
