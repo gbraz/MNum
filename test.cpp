@@ -1,4 +1,3 @@
-#include <iostream>
 #include "newton.h"
 #include "tabela.h"
 

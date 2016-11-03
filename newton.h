@@ -1,5 +1,6 @@
 #include <vector>
-#include <cmath>
+#include <cmath> //abs()
+#include <iostream>
 
 class Newton{
 private:

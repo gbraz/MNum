@@ -1,6 +1,4 @@
 #include "tabela.h"
-#include <iomanip>
-#include <stdio.h>
 
 Tabela::Tabela(){
 
@@ -8,6 +6,7 @@ Tabela::Tabela(){
 
 void Tabela::imprimirResultados(std::vector<std::vector<double> > v1, std::vector<std::vector<double> > v2){
 	
+	system("clear");
 	std::cout << "+----------------Newton-Raphson---------------------+" << std::endl; //Imprime tabela pro método de NR
 	std::cout << "+---+---------------+---------------+---------------+" << std::endl;
 	std::cout << "| k |      xk       |      f(xk)    |      f'(xk)   |" << std::endl;

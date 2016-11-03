@@ -1,5 +1,5 @@
 #include "newton.h"
-#include <iostream>
+
 
 Newton::Newton(){
 
@@ -45,7 +45,7 @@ double Newton::passoIter(double x, std::vector<double> a, std::vector<std::vecto
 
 
 
-std::vector<std::vector<double> > Newton::calcularRaiz(double x, std::vector<double> a, double e1, double e2, int p){
+std::vector<std::vector<double> > Newton::calcularRaiz(double x, std::vector<double> a, double e1, double e2, int p){ //p é um parâmetro opcional, default 1
 	double xk, fk;
 	std::vector<std::vector<double> > res;
 

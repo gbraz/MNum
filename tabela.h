@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <stdio.h>	//printf 
+#include <stdlib.h> //system
 
 class Tabela{
 public:
