@@ -46,7 +46,7 @@ double Newton::passoIter(double x, std::vector<double> a, std::vector<std::vecto
 
 
 std::vector<std::vector<double> > Newton::calcularRaiz(double x, std::vector<double> a, double e1, double e2, int p){ //p é um parâmetro opcional, default 1
-	double xk, fk;
+	double xk, f;
 	std::vector<std::vector<double> > res;
 
 	do{
@@ -55,6 +55,8 @@ std::vector<std::vector<double> > Newton::calcularRaiz(double x, std::vector<dou
 
 	}while (std::abs(x - xk) > e1 || std::abs(fun(x, a)) > e2);
 	
+	passoIter(x, a, res, p);
+
 	return res;
 }
 
