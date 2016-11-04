@@ -53,7 +53,7 @@ std::vector<std::vector<double> > Newton::calcularRaiz(double x, std::vector<dou
 		xk = x;
 		x = passoIter(xk, a, res, p);
 
-	}while (std::abs(x - xk) > e1 || std::abs(fun(x, a)) > e2);
+	}while (std::abs(x - xk) > e1 && std::abs(fun(x, a)) > e2);
 	
 	passoIter(x, a, res, p);
 
@@ -85,7 +85,7 @@ std::vector<std::vector<double> > Newton::calcularRaizSec(double x0, double x1, 
 		f0 = f1;
 		f1 = fun(x1, a);
 		salvarResSec(x1, f1, res);
-	}while(std::abs(x0 - x1) > e1 || std::abs(f1) > e2);
+	}while(std::abs(x0 - x1) > e1 && std::abs(f1) > e2);
 	
 	return res;
 }
