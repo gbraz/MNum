@@ -9,7 +9,7 @@ int main(){
 	a.push_back(0);
 	a.push_back(-9);
 	a.push_back(3);
-
+	//teste
 	resNr = Newton::calcularRaiz(0.5, a, 0.0001, 0.0001);
 	resSec = Newton::calcularRaizSec(0, 0.5, a, 0.0001, 0.0001);
 	
