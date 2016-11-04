@@ -4,7 +4,8 @@
 #include <stdlib.h> //system
 
 class Tabela{
-public:
+private:
 	Tabela();
-	void imprimirResultados(std::vector<std::vector<double> > v1, std::vector<std::vector<double> > v2);
+public:
+	static void imprimirResultados(std::vector<std::vector<double> > v1, std::vector<std::vector<double> > v2);
 };
