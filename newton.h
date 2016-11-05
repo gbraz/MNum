@@ -14,8 +14,8 @@ public:
 	static std::vector<std::vector<double> > calcularRaiz(double x, std::vector<double> a, double e1, double e2, int p = 1);
 	static std::vector<std::vector<double> > calcularRaizSec(double x0, double x1, std::vector<double> a, double e1, double e2, int p = 1);
 	
-	double circulo(std::vector<double> a);
-	std::vector<double> divisaoPolinomio(std::vector<double> a, std::vector<double> b);
-	int Sturn(std::vector<double> a, double alpha, double betha);
-	std::vector<double> nZeros(std::vector<double> I, std::vector<double> a, int i);
+	static double circulo(std::vector<double> a);
+	static std::vector<double> divisaoPolinomio(std::vector<double> a, std::vector<double> b);
+	static int Sturn(std::vector<double> a, double alpha, double betha);
+	static std::vector<double> nZeros(std::vector<double> I, std::vector<double> a, int i);
 };

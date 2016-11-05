@@ -18,7 +18,7 @@ double Newton::fun(double c, std::vector<double> a){
 std::vector<double> Newton::horner(double c, std::vector<double> a){
 	double b = a[0], d = a[0];
 	std::vector<double> f;
-	
+
 	for(int i = 1; i < a.size(); i++){ //Método de Horner
 		b = b*c + a[i];
 		if(i < a.size() - 1)
@@ -54,7 +54,7 @@ std::vector<std::vector<double> > Newton::calcularRaiz(double x, std::vector<dou
 		x = passoIter(xk, a, res, p);
 
 	}while (std::abs(x - xk) > e1 && std::abs(fun(x, a)) > e2);
-	
+
 	passoIter(x, a, res, p);
 
 	return res;
@@ -72,12 +72,12 @@ void Newton::salvarResSec(double x, double fx, std::vector<std::vector<double> >
 std::vector<std::vector<double> > Newton::calcularRaizSec(double x0, double x1, std::vector<double> a, double e1, double e2, int p){
 	double f0, f1, temp;
 	std::vector<std::vector<double> > res;
-	
+
 	f0 = fun(x0, a);
 	salvarResSec(x0, f0, res); //Armazenando os resultados no vetor res
 	f1 = fun(x1, a);
-	salvarResSec(x1, f1, res); 
-	
+	salvarResSec(x1, f1, res);
+
 	do{
 		temp = x1;
 		x1 = x1 - p*f1*(x1 - x0)/(f1 - f0);
@@ -86,13 +86,21 @@ std::vector<std::vector<double> > Newton::calcularRaizSec(double x0, double x1, 
 		f1 = fun(x1, a);
 		salvarResSec(x1, f1, res);
 	}while(std::abs(x0 - x1) > e1 && std::abs(f1) > e2);
-	
-	return res;
 
-	double Newton::circulo(std::vector<double> a){
+	return res;
+}
+
+//*************Autor: Rubens **********************
+
+
+/* 	primeiro, usa a do circulo para ter o intervalo de tamanho K
+	depois passa -k e K para nZeros
+	isto retorna O intervalo e e todos os vertices dos subintervalos com exatamente uma raiz entre eles
+*/
+double Newton::circulo(std::vector<double> a){
     int i = 0; double maxi = 0;
     for(i; i < a.size()-1; i++){
-        if(abs(a[i]/a[a.size() - 1]) > maxi){
+        if(std::abs(a[i]/a[a.size() - 1]) > maxi){
             maxi = a[i];
         }
     }
@@ -103,45 +111,97 @@ std::vector<std::vector<double> > Newton::calcularRaizSec(double x0, double x1, 
 std::vector<double> Newton::divisaoPolinomio(std::vector<double> a, std::vector<double> b){
     // ideia: dar um shift em b ate a primeira posição util de a.
     // termina quando a primeira posição de a for menor que a primeira posição de b
-    std::vector<double> aa;
+    std::vector<double> bb;
 
-    double coef;
+    double coef = 1;
     int inicioB = 0;
-    int i;
-    while(inicioB < b.size() && b[i] == 0){
-        inicioB++;
-        i++;
+    int i = 0;
+
+    if(a.size() == 0){
+    	return a;
     }
-    if(inicioB >= b.size())
-        return aa;
-        // supondo que a tem maior grau que b
-        //shift em b
+
+    if(b.size() == 0){
+    	return b;
+    }
+
+    std::cout << "inicio" << std::endl;
+
+    while(b[i] == 0 && i < b.size()){
+        std::cout << "loop" << std::endl;
+    	inicioB++;
+    	i++;
+    }
+    if(i == b.size())
+        return b;
+
+    std::cout << "tem o inicio de b inicioB = " << inicioB << std::endl;
+
+
+    // shift no b
+    for(i = inicioB; i < a.size(); i++){
+    	if(i >= b.size()){
+    		bb.push_back(0);
+    	}else{
+
+    		bb.push_back(b[i]);
+    	}
+    }
+
+    std::cout << "deu o shift em b" << std::endl;
+    // a = [2 2 2 2 2]
+    // b = [1 2 3 0 0] depois do shift
+    // coef = -2/1
+    //a = [0 -2 -4 2 2]
+
+    // por hipotese, b[0] != 0
+
     int j = 0;
 
     while(j <= inicioB){
 
-        i = j;
-        while(i < a.size()){
-            if(a.size() - inicioB < i){
-                aa.insert(aa.begin() + i, 0.0);
-            }
-            else{
-                aa.insert(aa.begin() + i, b[j - i + inicioB]);
-            }
-            i++;
-        }
+    	if(a[j] != 0){
+    	    std::cout << "bb[0] = " << bb[0] << std::endl;
+    	    std::cout << "-a[j] = " << -a[j] << std::endl;
+	        coef = -a[j]/bb[0];
+            std::cout << "tem o coeficiente " << coef << std::endl;
 
-        coef = -a[i]/b[inicioB];
-
-        for(i = 0; i <= a.size(); i++){
-               a[i] = coef * aa[i] + a[i];
-        }
-        j++;
+	        for(i = j; i <= a.size(); i++){
+	               a[i] = coef * bb[i] + a[i];
+	        }
+	    }
+	    j++;
     }
+
+    std::cout << "terminou a divisao " << coef << std::endl;
+    // testando se o resultado da divisão é de fato um vetor (pro caso de dividir polinomios de grau zero)
+
+    bool naonulo = false;
+    i = 0;
+    for(i = 0; i < a.size(); i++){
+    	if(a[i] != 0)
+    		naonulo = true;
+    }
+
+    if(naonulo){
+        std::cout << "nao nulo" << std::endl;
+    	return a;
+    }
+    std::vector<double> vetorNulo;
+    std::cout << "nulo" << std::endl;
+    return vetorNulo;
 }
 
-std::vector<double> nZeros(std::vector<double> I, std::vector<double> a, int i){
-    /* ideia: I = [x0, x1] inicialmente.
+
+// inicio nZeros(std:: vector<> I = [-k, k],  vetor de coeficientes a, i = 0)
+// retorna o intervalo com n > 1 vertices ou n=1 para o caso de nao existir raiz real
+// espera receber um vector com as coordenadas retornadas pelo circulo e retorna os vertices cujos intervalos tem exatamente uma raiz
+// I ja contem dois valores (ou um intervalo) [-k, k] vindos do circulo
+
+std::vector<double> Newton::nZeros(std::vector<double> I, std::vector<double> a, int i){
+
+    /*
+    	 ideia: I = [x0, x1] inicialmente.
         se i == I.size() - 1 entao nao ha raizes neste intervalo
         insiro a media do intervalo. I = [x0, xm, x1]
         vejo quantas raizes existem entre x0 e xm
@@ -149,29 +209,33 @@ std::vector<double> nZeros(std::vector<double> I, std::vector<double> a, int i){
         se existir mais de uma raiz entao subdivide I = [x0, xm1, xm, x1] e chama para x0, xm1
 
     */
-    if(i == I.size() - 1)
-        return I;
-    int nz = Sturn(a, I[i], I[i+1]);
+    int nz = Newton::Sturn(a, I[i], I[i+1]);
+
     if(nz == 0){
-        return nZeros(I, a, i+1);
+    	I.erase(I.begin() + i);
+    			// queer dizer que o intervalo inicial nao possui raizes reais. se falhar entao possui pelo menos uma e esta eh encontrada
+        return I;
+
     }
     if(nz > 1){
-        I.insert(i+1, (I[i] + I[i+1])/2);
-        return nZeros(I, a, i);
+    	I.insert(I.begin() + i + 1, (I[i] + I[i+1])/2);
+    	I = Newton::nZeros(I, a, i);
+    	I = Newton::nZeros(I, a, i+1);
     }
 
     return I;
+
 }
 
 int Newton::Sturn(std::vector<double> a, double alpha, double betha){
-    std::vector<std::vector<double>> G;
+    std::vector<std::vector<double> > G;
     std::vector<double> deriv;
 
     // calculando a descrição da derivada
     int i = 0;
     deriv.push_back(0);
 
-    for(i; i < a.size - 1; i++){
+    for(i; i < a.size() - 1; i++){
         deriv.push_back((i-1)*a[i]);
     }
 
@@ -182,10 +246,12 @@ int Newton::Sturn(std::vector<double> a, double alpha, double betha){
 
     std::vector<double> holder;
 
+
     bool valido = true;
     i = 0;
     while(valido){
         holder = Newton::divisaoPolinomio(G[i], G[i+1]);
+    std::cout << "TESTE" << std::endl;
         if(holder.size() != 0){
             G.push_back(holder);
             i++;
@@ -194,21 +260,21 @@ int Newton::Sturn(std::vector<double> a, double alpha, double betha){
         }
 
     }
-
+// obtida a sequencia de Sturn, basta verificar o valor de v(alpha) e v(betha)
 // sao os v(alpha) - v(betha) de sturn
-    double v1 = 0, v2 = 0;
+    int v1 = 0, v2 = 0;
 
     double h1, h2;
     double l1, l2;
 
 // ignorando os coe
-    h1 = fun(alpha, G[0]);
-    l1 = fun(betha, G[0]);
+    h1 = Newton::fun(alpha, G[0]);
+    l1 = Newton::fun(betha, G[0]);
 
     for(i = 1; i < G.size();  i++){
 
-        h2 = fun(alpha, G[i]);
-        l2 = fun(betha, G[i]);
+        h2 = Newton::fun(alpha, G[i]);
+        l2 = Newton::fun(betha, G[i]);
 
         if(h1*h2 < 0){
             v1++;
@@ -221,17 +287,5 @@ int Newton::Sturn(std::vector<double> a, double alpha, double betha){
     }
 
     return v1 - v2;
-
-}
-
-
-double Newton::fun(double c, std::vector<double> a){
-	double b;
-
-	for(int i = 1; i < a.size(); i++) //Método de Horner
-		b = b*c + a[i];
-
-	return b;
-}
 
 }
