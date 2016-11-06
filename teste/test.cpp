@@ -13,12 +13,12 @@ int main(){
 	
 	//teste nZeros
 	k = Newton::circulo(a);
-	std::cout << "K:" << k << std::endl;
 	interv.push_back(-k);
 	interv.push_back(k);
-	std::cin >> k;
-	interv = Newton::nZeros(interv, a, 0);
 	std::cout << "interv[0]: " << interv[0] << "; interv[1]: " << interv[1] << std::endl;
+	interv = Newton::nZeros(interv, a, 0);
+	std::cout << "K:" << k << std::endl;
+	std::cin >> k;
 
 	//teste calcularRaiz
 	resNr = Newton::calcularRaiz(0.5, a, 0.0001, 0.0001);
@@ -35,8 +35,8 @@ int main(){
 
 	resNr.clear();
 	resSec.clear();
-	resNr = Newton::calcularRaiz(0.5, a, 0.0001, 0.0001, 3);
-	resSec = Newton::calcularRaizSec(1, 1.5, a, 0.0001, 0.0001, 3);
+	resNr = Newton::calcularRaiz(0.5, a, 0.0001, 0.0001);
+	resSec = Newton::calcularRaizSec(1, 1.5, a, 0.0001, 0.0001);
 	Tabela::imprimirResultados(resNr, resSec);
 
 }

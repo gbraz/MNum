@@ -10,9 +10,9 @@ Newton::Newton(){
   			std::vector<double> a - coeficientes do polinômio
   Saída:	double - valor de P(c)*/
 double Newton::fun(double c, std::vector<double> a){
-	double b;
+	double b = a[0];
 
-	for(int i = 0; i < a.size(); i++) //Método de Horner
+	for(int i = 1; i < a.size(); i++) //Método de Horner
 		b = b*c + a[i];
 
 	return b;
