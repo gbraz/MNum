@@ -385,6 +385,8 @@ int Newton::Sturn(std::vector<double> a, double alpha, double betha){
         Newton::escrevePolinomio(holder);
 
         if(holder.size() != 0){
+            for(int q = 0; q < holder.size(); q++)
+                holder[q] = -holder[q];
             G.push_back(holder);
             i++;
         }else{
