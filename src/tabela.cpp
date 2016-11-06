@@ -1,4 +1,4 @@
-#include "tabela.h"
+#include "../header/tabela.h"
 
 Tabela::Tabela(){
 

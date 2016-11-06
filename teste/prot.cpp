@@ -1,5 +1,5 @@
 #include<iostream>
-#include "newton.h"
+#include "../header/newton.h"
 
 double fun(double c, std::vector<double> a){
 	double b;

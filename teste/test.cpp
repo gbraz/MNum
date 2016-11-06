@@ -1,5 +1,5 @@
-#include "newton.h"
-#include "tabela.h"
+#include "../header/newton.h"
+#include "../header/tabela.h"
 
 
 int main(){

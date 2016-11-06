@@ -1,4 +1,4 @@
-#include "newton.h"
+#include "../header/newton.h"
 
 
 Newton::Newton(){
@@ -78,7 +78,7 @@ std::vector<std::vector<double> > Newton::calcularRaiz(double x, std::vector<dou
 	return res;
 }
 
-/*Calcula a raiz via método da Secante
+/*Armazena o resultado de uma iteração do método da Secante
   Entradas: double x - valor da abscissa
   			double fx - valor da coordenada para x
   			std::vector<std::vector<double> >& res - matriz de armazenamento dos resultados*/
@@ -118,6 +118,9 @@ std::vector<std::vector<double> > Newton::calcularRaizSec(double x0, double x1, 
 
 	return res;
 }
+
+
+
 
 //*************Autor: Rubens **********************
 
