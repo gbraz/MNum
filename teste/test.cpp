@@ -1,15 +1,26 @@
-#include "newton.h"
-#include "tabela.h"
+#include "../header/newton.h"
+#include "../header/tabela.h"
 
 
 int main(){
-	std::vector<double> a;
+	double k;
+	std::vector<double> a, interv;
 	std::vector<std::vector<double> > resNr, resSec;
 	a.push_back(1);
 	a.push_back(0);
 	a.push_back(-9);
 	a.push_back(3);
-	//teste
+	
+	//teste nZeros
+	k = Newton::circulo(a);
+	std::cout << "K:" << k << std::endl;
+	interv.push_back(-k);
+	interv.push_back(k);
+	std::cin >> k;
+	interv = Newton::nZeros(interv, a, 0);
+	std::cout << "interv[0]: " << interv[0] << "; interv[1]: " << interv[1] << std::endl;
+
+	//teste calcularRaiz
 	resNr = Newton::calcularRaiz(0.5, a, 0.0001, 0.0001);
 	resSec = Newton::calcularRaizSec(0, 0.5, a, 0.0001, 0.0001);
 	

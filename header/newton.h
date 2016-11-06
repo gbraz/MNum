@@ -1,3 +1,5 @@
+#ifndef NEWTON_H
+#define NEWTON_H
 #include <vector>
 #include <cmath> //abs()
 #include <iostream>
@@ -19,3 +21,5 @@ public:
 	static int Sturn(std::vector<double> a, double alpha, double betha);
 	static std::vector<double> nZeros(std::vector<double> I, std::vector<double> a, int i);
 };
+
+#endif // NEWTON_H
