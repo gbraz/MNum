@@ -98,10 +98,24 @@ std::vector<std::vector<double> > Newton::calcularRaizSec(double x0, double x1, 
 	isto retorna O intervalo e e todos os vertices dos subintervalos com exatamente uma raiz entre eles
 */
 double Newton::circulo(std::vector<double> a){
-    int i = 0; double maxi = 0;
-    for(i; i < a.size()-1; i++){
-        if(std::abs(a[i]/a[a.size() - 1]) > maxi){
-            maxi = a[i];
+
+    int i = 0;
+    int inicioA = 0;
+
+    while(a[i] == 0 && i < a.size()){
+        inicioA++;
+        i++;
+    }
+    i = inicioA + 1;
+
+    if(inicioA == a.size())
+        return 1;
+
+    double maxi = 0;
+    for(i; i < a.size(); i++){
+        if(std::abs(a[i]/a[inicioA]) > maxi){
+            maxi = std::abs(a[i]/a[inicioA]);
+
         }
     }
 

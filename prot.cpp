@@ -11,10 +11,24 @@ double fun(double c, std::vector<double> a){
 }
 
 double circulo(std::vector<double> a){
-    int i = 0; double maxi = 0;
-    for(i; i < a.size()-1; i++){
-        if(std::abs(a[i]/a[a.size() - 1]) > maxi){
-            maxi = a[i];
+
+    int i = 0;
+    int inicioA = 0;
+
+    while(a[i] == 0 && i < a.size()){
+        inicioA++;
+        i++;
+    }
+    i = inicioA + 1;
+
+    if(inicioA == a.size())
+        return 1;
+
+    double maxi = 0;
+    for(i; i < a.size(); i++){
+        if(std::abs(a[i]/a[inicioA]) > maxi){
+            maxi = std::abs(a[i]/a[inicioA]);
+
         }
     }
 
@@ -127,7 +141,7 @@ int Sturn(std::vector<double> a, double alpha, double betha){
 
     bool valido = true;
     i = 0;
-    while(valido){
+    /*while(valido){
         holder = divisaoPolinomio(G[i], G[i+1]);
     std::cout << "TESTE" << std::endl;
         if(holder.size() != 0){
@@ -137,6 +151,15 @@ int Sturn(std::vector<double> a, double alpha, double betha){
             valido = false;
         }
 
+    }*/
+
+    while(valido){
+        G.push_back(divisaoPolinomio(G[i], G[i+1]));
+        if(G[i+1].size() == 0){
+            valido = false;
+        }else{
+            i++;
+        }
     }
 // obtida a sequencia de Sturn, basta verificar o valor de v(alpha) e v(betha)
 // sao os v(alpha) - v(betha) de sturn
@@ -220,12 +243,19 @@ int main(){
     P.push_back(0);
     P.push_back(1);
 
-    std::vector<double> novo = divisaoPolinomio(P, vazio);
-    std::cout << "saiu da polinomio " <<std::endl;
-    int i = 0;
-    std::cout << "tamanho: " << novo.size() <<std::endl;
 
-    for(i = 0; i < P.size(); i++)
-        std::cout << novo[i] <<std::endl;
-    return 0;
+
+    // testando os intervalos
+
+    double k = circulo(P);
+    std::vector<double> I;
+    I.push_back(-k);
+    I.push_back(k);
+
+    std::cout << "tamanho de I: " << I.size() <<std::endl;
+
+   std::vector <double> intervalos = nZeros(I, P, 0);
+   std::cout << "tamanho de Intervalos: " << intervalos.size() <<std::endl;
+
+   return 0;
 }
