@@ -5,129 +5,176 @@ Newton::Newton(){
 
 }
 
+
 /*Retorna o resultado de um polinômio por método de horner
   Entradas: double c - valor da abscissa
-  			std::vector<double> a - coeficientes do polinômio
-  Saída:	double - valor de P(c)*/
+            std::vector<double> a - coeficientes do polinômio
+  Saída:    double - valor de P(c)
+  Autor:    Geraldo Braz*/
 double Newton::fun(double c, std::vector<double> a){
-	double b = a[0];
+    double b = a[0];
 
-	for(int i = 1; i < a.size(); i++) //Método de Horner
-		b = b*c + a[i];
+    for(int i = 1; i < a.size(); i++) //Método de Horner
+        b = b*c + a[i];
 
-	return b;
+    return b;
 }
 
 /*Retorna o resultado de um polinômio e sua derivada por método de horner
   Entradas: double c - valor da abscissa
-  			std::vector<double> a - coeficientes do polinômio
-  Saída:	std::vector<double> - valor de P(c) e P'(c)*/
+            std::vector<double> a - coeficientes do polinômio
+  Saída:    std::vector<double> - valor de P(c) e P'(c)
+  Autor:    Geraldo Braz*/
 std::vector<double> Newton::horner(double c, std::vector<double> a){
-	double b = a[0], d = a[0];
-	std::vector<double> f;
+    double b = a[0], d = a[0];
+    std::vector<double> f;
 
-	for(int i = 1; i < a.size(); i++){ //Método de Horner
-		b = b*c + a[i];
-		if(i < a.size() - 1)
-			d = d*c + b;
-	}
+    for(int i = 1; i < a.size(); i++){ //Método de Horner
+        b = b*c + a[i];
+        if(i < a.size() - 1)
+            d = d*c + b;
+    }
 
-	f.push_back(b);
-	f.push_back(d);
-	return f;
+    f.push_back(b);
+    f.push_back(d);
+    return f;
 }
 
 /*Executa um passo iteratico do método de Newton-Raphson
   Entradas: double c - valor da abscissa
-  			std::vector<double> a - coeficientes do polinômio
-  			std::vector<std::vector<double> >& res - matriz onde serão armazenadas os resultados da iteração
-  Saída:	double - valor x do resultado da iteração realizada*/
+            std::vector<double> a - coeficientes do polinômio
+            std::vector<std::vector<double> >& res - matriz onde serão armazenadas os resultados da iteração
+  Saída:    double - valor x do resultado da iteração realizada
+  Autor:    Geraldo Braz*/
 double Newton::passoIter(double x, std::vector<double> a, std::vector<std::vector<double> >& res, int p){
-	std::vector<double> f, iteracao;
+    std::vector<double> f, iteracao;
 
-	f = horner(x, a);
+    f = horner(x, a);
 
-	iteracao.push_back(x);	//Armazenando os resultados da iteração
-	iteracao.push_back(f[0]);
-	iteracao.push_back(f[1]);
-	res.push_back(iteracao);
-
-	return x - p*f[0]/f[1];
+    iteracao.push_back(x);  //Armazenando os resultados da iteração
+    iteracao.push_back(f[0]);
+    iteracao.push_back(f[1]);
+    res.push_back(iteracao);
+    
+    return x - p*f[0]/f[1];
 }
-
 
 /*Calcula a raiz via método de Newton-Raphson
   Entradas: double c - valor da abscissa
-  			std::vector<double> a - coeficientes do polinômio
-  			double e1 - critério de parada 1
-			double e2 - critério de parada 2
-  			int p - multiplicidade da raiz a ser encontrada. Parâmetro opcional, default 1
-  Saída:	std::vector<std::vector<double> > - matriz com os resultados de cada iteração*/
-std::vector<std::vector<double> > Newton::calcularRaiz(double x, std::vector<double> a, double e1, double e2, int p){
-	double xk, f;
-	std::vector<std::vector<double> > res;
+            std::vector<double> a - coeficientes do polinômio
+            double e1 - critério de parada 1
+            double e2 - critério de parada 2
+            int maxIter - número máximo de iterações
+            int p - multiplicidade da raiz a ser encontrada. Parâmetro opcional, default 1
+  Saída:    std::vector<std::vector<double> > - matriz com os resultados de cada iteração
+  Autor:    Geraldo Braz*/
+std::vector<std::vector<double> > Newton::calcularRaiz(double x, std::vector<double> a, double e1, double e2, int maxIter, int p){
+    double xk, f;
+    std::vector<std::vector<double> > res;
 
-	do{
-		xk = x;
-		x = passoIter(xk, a, res, p);
+    do{
+        xk = x;
+        x = passoIter(xk, a, res, p);
 
-	}while (std::abs(x - xk) > e1 && std::abs(fun(x, a)) > e2);
+    }while (std::abs(x - xk) > e1 && std::abs(fun(x, a)) > e2 && res.size() < maxIter);
 
-	passoIter(x, a, res, p);
+    passoIter(x, a, res, p);
 
-	return res;
+    return res;
 }
 
 /*Armazena o resultado de uma iteração do método da Secante
   Entradas: double x - valor da abscissa
-  			double fx - valor da coordenada para x
-  			std::vector<std::vector<double> >& res - matriz de armazenamento dos resultados*/
+            double fx - valor da coordenada para x
+            std::vector<std::vector<double> >& res - matriz de armazenamento dos resultados
+  Autor:    Geraldo Braz*/
 void Newton::salvarResSec(double x, double fx, std::vector<std::vector<double> >& res){ //Armazena os resultados da iteração
-	std::vector<double> iteracao;
+    std::vector<double> iteracao;
 
-	iteracao.push_back(x);
-	iteracao.push_back(fx);
-	res.push_back(iteracao);
+    iteracao.push_back(x);
+    iteracao.push_back(fx);
+    res.push_back(iteracao);
 }
 
 /*Calcula a raiz via método da Secante
   Entradas: double x0 - valor da abscissa do primeiro chute
-  			double x1 - valor da abscissa do segundo chute
-  			std::vector<double> a - coeficientes do polinômio
-  			double e1 - critério de parada 1
-			double e2 - critério de parada 2
-  			int p - multiplicidade da raiz a ser encontrada. Parâmetro opcional, default 1
-  Saída:	std::vector<std::vector<double> > - matriz com os resultados de cada iteração*/
-std::vector<std::vector<double> > Newton::calcularRaizSec(double x0, double x1, std::vector<double> a, double e1, double e2, int p){
-	double f0, f1, temp;
-	std::vector<std::vector<double> > res;
+            double x1 - valor da abscissa do segundo chute
+            std::vector<double> a - coeficientes do polinômio
+            double e1 - critério de parada 1
+            double e2 - critério de parada 2
+            int maxIter - número máximo de iterações
+            int p - multiplicidade da raiz a ser encontrada. Parâmetro opcional, default 1
+  Saída:    std::vector<std::vector<double> > - matriz com os resultados de cada iteração
+  Autor:    Geraldo Braz*/
+std::vector<std::vector<double> > Newton::calcularRaizSec(double x0, double x1, std::vector<double> a, double e1, double e2, int maxIter, int p){
+    double f0, f1, temp;
+    std::vector<std::vector<double> > res;
 
-	f0 = fun(x0, a);
-	salvarResSec(x0, f0, res); //Armazenando os resultados no vetor res
-	f1 = fun(x1, a);
-	salvarResSec(x1, f1, res);
+    f0 = fun(x0, a);
+    salvarResSec(x0, f0, res); //Armazenando os resultados no vetor res
+    f1 = fun(x1, a);
+    salvarResSec(x1, f1, res);
 
-	do{
-		temp = x1;
-		x1 = x1 - p*f1*(x1 - x0)/(f1 - f0);
-		x0 = temp;
-		f0 = f1;
-		f1 = fun(x1, a);
-		salvarResSec(x1, f1, res);
-	}while(std::abs(x0 - x1) > e1 && std::abs(f1) > e2);
+    do{
+        temp = x1;
+        x1 = x1 - p*f1*(x1 - x0)/(f1 - f0);
+        x0 = temp;
+        f0 = f1;
+        f1 = fun(x1, a);
+        salvarResSec(x1, f1, res);
+    }while(std::abs(x0 - x1) > e1 && std::abs(f1) > e2 && res.size() < maxIter);
 
-	return res;
+    return res;
 }
 
+/*Calcula uma raiz de multiplicidade p no método de Newton-Raphson e da Secante
+  Entradas: std::vector<double> a - coeficientes do polinômio
+            std::vector<std::vector<std::vector<double> > >& res - resultados de cada iteração
+            double e1 - critério de parada 1
+            double e2 - critério de parada 2
+            int p - multiplicidade da raiz a ser encontrada.
+  Saída:    bool - true se encontrada a raiz, false caso contrário 
+  Autor:    Geraldo Braz*/
+bool Newton::calcularMult(std::vector<double> a, std::vector<std::vector<std::vector<double> > >& res,double e1, double e2, int p){
+    int k, maxIter = 200;
+    double chute1, chute2, f1, f2;
+    std::vector<double> interv;
+    std::vector<std::vector<double> > resNr, resSec;
+    
+    k = circulo(a);                 //Calcular intervalos com raizes
+    interv.push_back(-k);
+    interv.push_back(k);
+    interv = nZeros(interv, a, 0);
+    
+    for(int i = 0; i < interv.size() - 1; i++){ //Testa a convergência para cada intervalo
+        chute1 =(interv[i]+interv[i+1])/2;
+        chute2 = (chute1 + interv[i+1])/2;
+        resNr = calcularRaiz(chute1, a, e1, e2, maxIter, p);
 
+        f1 = fun(chute1, a);
+        f2 = fun(chute2, a);
+        if(f1 > f2)
+            resSec = calcularRaizSec(chute1, chute2, a, e1, e2, maxIter, p);
+        else 
+            resSec = calcularRaizSec(chute2, chute1, a, e1, e2, maxIter, p);
+ 
+        if((resNr.size() < maxIter) && (resSec.size() < maxIter) && (std::abs(resNr[resNr.size() - 1][1]) < e2)){
+            res.push_back(resNr);
+            res.push_back(resSec);
+            return true;
+        }
+    }
+
+    return false;
+}
 
 
 //*************Autor: Rubens **********************
 
 
-/* 	primeiro, usa a do circulo para ter o intervalo de tamanho K
-	depois passa -k e K para nZeros
-	isto retorna O intervalo e e todos os vertices dos subintervalos com exatamente uma raiz entre eles
+/*  primeiro, usa a do circulo para ter o intervalo de tamanho K
+    depois passa -k e K para nZeros
+    isto retorna O intervalo e e todos os vertices dos subintervalos com exatamente uma raiz entre eles
 
 */
 void Newton::escrevePolinomio(std::vector<double> a){
