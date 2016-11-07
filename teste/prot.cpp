@@ -52,11 +52,6 @@ std::vector<double> divisaoPolinomio(std::vector<double> a, std::vector<double> 
     // termina quando a primeira posição de a for menor que a primeira posição de b
     std::vector<double> bb;
 
-    //std::cout << " originais, a = ";
-    //escrevePolinomio(a);
-    //std::cout << " originais, b = ";
-    //escrevePolinomio(b);
-
     double coef = 1;
     int inicioB = 0;
     int i;
@@ -64,9 +59,6 @@ std::vector<double> divisaoPolinomio(std::vector<double> a, std::vector<double> 
     // formatando b para ficarem do mesmo tamanho
     if(a.size() > b.size()){
         b.insert(b.begin(), a.size() - b.size(), 0);
-        //std::cout << " agora, b = ";
-        //escrevePolinomio(b);
-
     }
 
     i = 0;
@@ -74,8 +66,6 @@ std::vector<double> divisaoPolinomio(std::vector<double> a, std::vector<double> 
         a.erase(a.begin());
         b.erase(b.begin());
     	i++;
-    	//std::cout << i;
-
     }
 
     //std::cout << " a tambem precisa de shift! apos shift, a = ";
@@ -131,8 +121,6 @@ std::vector<double> divisaoPolinomio(std::vector<double> a, std::vector<double> 
                // escrevePolinomio(a);
 
                  //std::cout << " a[i+j] = " << a[i+j] << std::endl;
-
-
                 a[j + i] = coef * bb[i] + a[j + i];
 
                 if(std::abs(a[i + j]) < 1.0*10e-6)
@@ -283,21 +271,33 @@ std::vector<double> nZeros(std::vector<double> I, std::vector<double> a, int i){
         se existir mais de uma raiz entao subdivide I = [x0, xm1, xm, x1] e chama para x0, xm1
 
     */
-    // std::cout << " I = [ "<< I[i] << ", " << I[i+1] << "]" << std::endl;
+    //std::cout << " começo de nZ. I[i] = " << I[i] << std::endl;
     int nz = Sturn(a, I[i], I[i+1]);
-
+    //std::cout << " nz = " << nz << std::endl;
     if(nz == 0){
+       // std::cout << " era I = [ "<< I[i] << ", " << I[i+1] << "]" << std::endl;
     	I.erase(I.begin() + i);
-    			// queer dizer que o intervalo inicial nao possui raizes reais. se falhar entao possui pelo menos uma e esta eh encontrada
+        //std::cout << "nao achou raiz. I = [ " << std::endl;
+       // escrevePolinomio(I);
+       // std::cout <<  "]" << std::endl;
+        // queer dizer que o intervalo inicial nao possui raizes reais. se falhar entao possui pelo menos uma e esta eh encontrada
         return I;
 
     }
     if(nz > 1){
+
     	I.insert(I.begin() + i + 1, (I[i] + I[i+1])/2);
-    	escrevePolinomio(I);
+    	//escrevePolinomio(I);
+    	//std::cout << "achou mais de uma raiz. I = [ " << std::endl;
+        //escrevePolinomio(I);
+        //std::cout <<  "]" << std::endl;
+
+        int g = I.size();
 
     	I = nZeros(I, a, i);
-    	I = nZeros(I, a, i+1);
+    	//if(I.size() >= g)
+        i = I.size() - g + 1;
+    	I = nZeros(I, a, i);
     }
 
     return I;
@@ -315,10 +315,10 @@ int main(){
 
     std::vector <double> P;
     P.push_back(1);
-    P.push_back(-5);
-    P.push_back(3);
-    P.push_back(4);
     P.push_back(-8);
+    P.push_back(16);
+    P.push_back(-16);
+    P.push_back(16);
 
 
 

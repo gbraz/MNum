@@ -167,25 +167,18 @@ double Newton::circulo(std::vector<double> a){
 
 std::vector<double> Newton::divisaoPolinomio(std::vector<double> a, std::vector<double> b){
 
-    std::cout << "começo de divisao polinomio" << std::endl << std::endl;
     // ideia: dar um shift em b ate a primeira posição util de a.
     // termina quando a primeira posição de a for menor que a primeira posição de b
-    std::vector<double> bb;
 
-    std::cout << " originais, a = ";
-    Newton::escrevePolinomio(a);
-    std::cout << " originais, b = ";
-    Newton::escrevePolinomio(b);
+    std::vector<double> bb;
 
     double coef = 1;
     int inicioB = 0;
     int i;
+// preenchendo b com zeros para igualar os tamanhos
 
     if(a.size() > b.size()){
         b.insert(b.begin(), a.size() - b.size(), 0);
-        std::cout << " agora, b = ";
-        Newton::escrevePolinomio(b);
-
     }
 
     i = 0;
@@ -193,12 +186,9 @@ std::vector<double> Newton::divisaoPolinomio(std::vector<double> a, std::vector<
         a.erase(a.begin());
         b.erase(b.begin());
     	i++;
-    	std::cout << i;
+
 
     }
-
-    std::cout << " a tambem precisa de shift! apos shift, a = ";
-    Newton::escrevePolinomio(a);
 
     if(a.size() == 0){
     	return a;
@@ -210,32 +200,8 @@ std::vector<double> Newton::divisaoPolinomio(std::vector<double> a, std::vector<
 
     i = 0;
 
-    /*while(b[i] == 0 && i < b.size()){
-        //,std::cout << "loop" << std::endl;
-    	inicioB++;
-    	i++;
-    }
-    if(i == b.size())
-        return b;
-    */
-    std::cout << "vetores parametro validos? inicioB = " << inicioB <<std::endl << std::endl;
-    std::cout << "a = ";
-    Newton::escrevePolinomio(a);
-    std::cout << "b = ";
-    Newton::escrevePolinomio(b);
-
-    // shift no b
-    /*for(i = inicioB; i <= a.size(); i++){
-    	if(i >= b.size()){
-    		bb.push_back(0);
-    	}else{
-
-    		bb.push_back(b[i]);
-    	}
-        //std::cout << "i = " << i <<std::endl;
-    }*/
     int maxi = b.size();
-    i = 0;
+
     while(b[0] == 0 && i < maxi){
         inicioB++;
         b.erase(b.begin());
@@ -245,48 +211,28 @@ std::vector<double> Newton::divisaoPolinomio(std::vector<double> a, std::vector<
 
     if(b.size() == 0)
         return a;
-    std::cout << "deu o shift em b" << std::endl;
-    std::cout << "b = ";
-    Newton::escrevePolinomio(b);
 
     bb = b;
-
 
     int k = 0;
 
     int j = 0;
-    std::cout << "inicio do loop problema " << std::endl << std::endl;
+
     while(j <= inicioB){
-        std::cout << "a = ";
-        Newton::escrevePolinomio(a);
+
     	if(a[j] != 0){
-    	    std::cout << "      bb[0] = " << bb[0] << std::endl;
-    	    std::cout << "      a[j] = " << a[j] << std::endl;
-
 	        coef = -a[j]/bb[0];
-            std::cout << "      tem o coeficiente " << coef << std::endl;
-
-            std::cout << "      inicio do loop de atribuicao" << std::endl;
             for(i = 0; i < bb.size() - j; i++){
-                std::cout << " i = "<< i << std::endl;
-                Newton::escrevePolinomio(a);
-
-                 std::cout << " a[i+j] = " << a[i+j] << std::endl;
-
 
                 a[j + i] = coef * bb[i] + a[j + i];
 
                 if(std::abs(a[i + j]) < 1.0*10e-6)
                     a[i+j] = 0;
             }
-
 	    }
 	    j++;
     }
 
-    std::cout << "terminou a divisao, coef= " << coef << std::endl;
-    std::cout << "  fim do loop; a = ";
-    Newton::escrevePolinomio(a);
     // testando se o resultado da divisão é de fato um vetor (pro caso de dividir polinomios de grau zero)
 
     bool naonulo = false;
@@ -297,11 +243,9 @@ std::vector<double> Newton::divisaoPolinomio(std::vector<double> a, std::vector<
     }
 
     if(naonulo){
-        std::cout << "nao nulo" << std::endl;
     	return a;
     }
     std::vector<double> vetorNulo;
-    std::cout << "nulo" << std::endl;
     return vetorNulo;
 }
 
@@ -326,14 +270,18 @@ std::vector<double> Newton::nZeros(std::vector<double> I, std::vector<double> a,
 
     if(nz == 0){
     	I.erase(I.begin() + i);
-    			// queer dizer que o intervalo inicial nao possui raizes reais. se falhar entao possui pelo menos uma e esta eh encontrada
+    			// quer dizer que o intervalo inicial nao possui raizes reais. se falhar entao possui pelo menos uma e esta eh encontrada
         return I;
 
     }
     if(nz > 1){
     	I.insert(I.begin() + i + 1, (I[i] + I[i+1])/2);
+
+    	 int g = I.size();
+
     	I = Newton::nZeros(I, a, i);
-    	I = Newton::nZeros(I, a, i+1);
+        i = I.size() -g + 1;
+    	I = Newton::nZeros(I, a, i);
     }
 
     return I;
@@ -342,18 +290,13 @@ std::vector<double> Newton::nZeros(std::vector<double> I, std::vector<double> a,
 
 int Newton::Sturn(std::vector<double> a, double alpha, double betha){
 
-    std::cout << "começo de Sturn" << std::endl;
-
     std::vector<std::vector<double> > G;
     std::vector<double> deriv;
 
     // calculando a descrição da derivada
     int i = 0;
-    std::cout<< "a = ";
-    Newton::escrevePolinomio(a);
 
     deriv.push_back(0);
-    std::cout << "derivada = ";
 
     int l = 0;
 
@@ -361,8 +304,6 @@ int Newton::Sturn(std::vector<double> a, double alpha, double betha){
         deriv.push_back((i)*a[l]);
         l++;
     }
-    Newton::escrevePolinomio(deriv);
-
 
     // gerando a sequencia de sturn. G guarda todos os polinomios gerados pela divisao de pol
 
@@ -371,18 +312,12 @@ int Newton::Sturn(std::vector<double> a, double alpha, double betha){
 
     std::vector<double> holder (3, 0);
 
-
     bool valido = true;
     i = 0;
-
-    std::cout << "          começo do loop em Sturn para as sequencias de polinomio" << std::endl;
 
     while(valido){
         holder = std::vector <double>() ;
         holder = Newton::divisaoPolinomio(G[i], G[i+1]);
-        std::cout << "em Sturn, holder = " << std::endl;
-
-        Newton::escrevePolinomio(holder);
 
         if(holder.size() != 0){
             for(int q = 0; q < holder.size(); q++)
@@ -398,14 +333,7 @@ int Newton::Sturn(std::vector<double> a, double alpha, double betha){
 // obtida a sequencia de Sturn, basta verificar o valor de v(alpha) e v(betha)
 // sao os v(alpha) - v(betha) de sturn
 
-    std::cout << "fim do loop em Sturn" << std::endl;
-
     int z = 0;
-
-    for(z; z < G.size(); z++){
-        std::cout << "G[" << z << "] = " << std::endl;
-        Newton::escrevePolinomio(G[z]);
-    }
 
     int v1 = 0, v2 = 0;
 
@@ -413,32 +341,23 @@ int Newton::Sturn(std::vector<double> a, double alpha, double betha){
     double l1, l2;
 
 // ignorando os coe
-    std::cout << "      gerando os valores das funções sequencia" << std::endl;
-    std::cout << "  aqui esta o que procura: I = [ "<< alpha << ", " << betha << "]" << std::endl;
     h1 = Newton::fun(alpha, G[0]);
     l1 = Newton::fun(betha, G[0]);
 
-    for(i = 1; i < G.size();  i++){
-        std::cout << "        g(alpha, i),   g(betha, i) = " << h1 << ", " << l1 << std::endl;
+    for(i = 1; i < G.size(); i++){
 
         h2 = Newton::fun(alpha, G[i]);
-
         l2 = Newton::fun(betha, G[i]);
 
-        std::cout << "      g(alpha, i+1), g(betha, i+1) = " << h2 << ", " << l2 << std::endl << std::endl;
         if(h1*h2 < 0){
-            std::cout << " v1++ "<< i << std::endl;
             v1++;
         }
         if(l1*l2 < 0){
-            std::cout << " v2++ "<< i << std::endl;
             v2++;
         }
         h1 = h2;
         l1 = l2;
     }
-    std::cout << "fim de Sturn " << std::endl << std::endl;
-    std::cout << " existem "<< v1 - v2 << " raizes neste intervalo [" << alpha << ", " << betha <<  std::endl << std::endl;
-    return v1 - v2;
 
+    return v1 - v2;
 }
