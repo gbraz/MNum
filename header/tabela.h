@@ -9,6 +9,7 @@ class Tabela{
 private:
 	Tabela();
 public:
+	static void receberPolinomio();
 	static void imprimirResultados(std::vector<double>, std::vector<std::vector<double> >, std::vector<std::vector<double> >);
 };
 
