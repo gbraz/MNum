@@ -1,13 +1,17 @@
 #include "../header/tabela.h"
+#include "../header/newton.h"
 
 Tabela::Tabela(){
 
 }
-
+/*Interface simples para entrada de coeficientes
+  Autor:    Geraldo Braz*/
 void Tabela::receberPolinomio(){
-	int n = 0;
+	int p, n = 0;
 	char c;
+	double coef, e1 = 0.0001, e2 = 0.0001;
 	std::vector<double> a;
+	std::vector<std::vector<std::vector<double> > > res;
 
 	while(n < 1){
 		system("clear");
@@ -15,25 +19,38 @@ void Tabela::receberPolinomio(){
 		std::cout << std::endl << std::endl;
 		std::cout << "Insira o número de reações:"; 
 		std::cin >> n;
-		if(n < 1){
-			std::cout<< "Quantidade inválida de reações. Pressione qualquer tecla para continuar:";
-			//a = getchar();
 		}
-		else{
-			std::cout << n;
-			if(n > 1) 
-				std::cout<< " reações. Confirmar?(s/n):";
-			else 
-				std::cout<< " reação. Confirmar?(s/n):";
-			std::cin >> n;
-		}
-	}
+		system("clear");
+		std::cout << "+----------------Newton-Raphson---------------------+" << std::endl; 
+		std::cout << "a4:";
+		std::cin >> coef;
+		a.push_back(coef);
+		std::cout << "a3:";
+		std::cin >> coef;
+		a.push_back(coef);
+		std::cout << "a2:";
+		std::cin >> coef;
+		a.push_back(coef);
+		std::cout << "a1:";
+		std::cin >> coef;
+		a.push_back(coef);
+		std::cout << "a0:";
+		std::cin >> coef;
+		a.push_back(coef);
+		std::cout << "Multiplicidade:";
+		std::cin >> p;
+
+		if(Newton::calcularMult(a, res, e1, e2, p))
+			Tabela::imprimirResultados(a, res[0], res[1]);
+		else
+			std::cout << "Não converge" << std::endl;
 
 }
 
 /*Imprime uma tabela para as iterações de Newton-Raphson e outra para Secante
   Entradas: std::vector<std::vector<double> > m1 - matriz dos resultados de Newton-Raphson
-  			std::vector<std::vector<double> > m2 - matriz dos resultados do método da Secante*/
+  			std::vector<std::vector<double> > m2 - matriz dos resultados do método da Secante*
+  Autor:    Geraldo Braz*/
 void Tabela::imprimirResultados(std::vector<double> a, std::vector<std::vector<double> > m1, std::vector<std::vector<double> > m2){
 	
 	system("clear");
@@ -46,9 +63,12 @@ void Tabela::imprimirResultados(std::vector<double> a, std::vector<std::vector<d
 				std::cout << "+" << a[i] << "x^" << a.size() -i-1 << " "; 
 				
 	if(a[a.size()-1] < 0)
-		std::cout << a[a.size()-1] << std::endl;
+		std::cout << a[a.size()-1];
 	else
-		std::cout << "+" << a[a.size()-1] << std::endl;
+		if(a[a.size()-1] > 0)
+			std::cout << "+" << a[a.size()-1];
+	std::cout << std::endl;
+
 
 	std::cout << "+----------------Newton-Raphson---------------------+" << std::endl; //Imprime tabela pro método de NR
 	std::cout << "+---+---------------+---------------+---------------+" << std::endl;
