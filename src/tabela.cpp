@@ -8,9 +8,10 @@ Tabela::Tabela(){
   Autor:    Geraldo Braz*/
 void Tabela::receberPolinomio(){
 	int p, n = 0;
-	char c;
 	double coef, e1 = 0.0001, e2 = 0.0001;
+	std::vector<int> mult;
 	std::vector<double> a;
+	std::vector< std::vector<double> > reac;
 	std::vector<std::vector<std::vector<double> > > res;
 
 	while(n < 1){
@@ -19,7 +20,8 @@ void Tabela::receberPolinomio(){
 		std::cout << std::endl << std::endl;
 		std::cout << "Insira o número de reações:"; 
 		std::cin >> n;
-		}
+	}
+	for(int i = 0; i < n; i++){
 		system("clear");
 		std::cout << "+----------------Newton-Raphson---------------------+" << std::endl; 
 		std::cout << "a4:";
@@ -37,13 +39,23 @@ void Tabela::receberPolinomio(){
 		std::cout << "a0:";
 		std::cin >> coef;
 		a.push_back(coef);
+		reac.push_back(a);	
 		std::cout << "Multiplicidade:";
 		std::cin >> p;
-
+		mult.push_back(p);
+	}
+	system("clear");
+	
+	for(int i = 0; i < n; i++){
+		std::cout << "+----------------Reação " << i+1  << "---------------------+"<< std::endl; 
+		p = mult[i];
+		a = reac[i];
 		if(Newton::calcularMult(a, res, e1, e2, p))
 			Tabela::imprimirResultados(a, res[0], res[1]);
 		else
 			std::cout << "Não converge" << std::endl;
+		std::cout << std::endl << std::endl; 
+	}
 
 }
 
@@ -53,7 +65,6 @@ void Tabela::receberPolinomio(){
   Autor:    Geraldo Braz*/
 void Tabela::imprimirResultados(std::vector<double> a, std::vector<std::vector<double> > m1, std::vector<std::vector<double> > m2){
 	
-	system("clear");
 	std::cout << "Polinômio: ";
 	for(int i = 0; i < a.size()-1; i++)	
 		if((i == 0) || (a[i] < 0))
