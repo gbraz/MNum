@@ -1,10 +1,11 @@
 #include <vector>
+#include <iostream>
 #include <stdlib.h>
 
 class SisLinear {
 
 public:
 	SisLinear();
-	bool pivotear (std::vector<std::vector<double> >, std::vector<double>, int);
-	std::vector<std::vector<double> > lu(std::vector<std::vector<double> >);
+	bool pivotear (std::vector<std::vector<double> >&, std::vector<double>&, int);
+	std::vector<std::vector<double> > gerarLU(std::vector<std::vector<double> >);
 };

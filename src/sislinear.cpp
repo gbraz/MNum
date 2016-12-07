@@ -4,7 +4,14 @@ SisLinear::SisLinear(){
 
 }
 
-bool SisLinear::pivotear(std::vector<std::vector<double> > mat, std::vector<double> p, int i){
+
+/*Faz o pivoteamento de uma matriz 'mat', a partir da linha i 
+  Entradas: vector<std::vector<double> >& mat- matriz dos coeficientes, passada por referência
+            std::vector<double>& p - vetor com as posições trocadas das linhas da matriz 'mat'
+            int i - linha que deve ser pivoteada
+  Saída:    bool - false se a matriz é singular, true caso contrário
+  Autor:    Geraldo Braz*/
+bool SisLinear::pivotear(std::vector<std::vector<double> >& mat, std::vector<double>& p, int i){
 	int r;
 	double pivo, aux1;
 	std::vector<double> aux2;
@@ -14,7 +21,7 @@ bool SisLinear::pivotear(std::vector<std::vector<double> > mat, std::vector<doub
 	for(int j = i+1; j < mat.size(); j++){
 		if(abs(mat[j][i]) > pivo){
 			pivo = abs(mat[j][i]);
-			r = i;
+			r = j;
 		}
 	}
 
@@ -34,7 +41,12 @@ bool SisLinear::pivotear(std::vector<std::vector<double> > mat, std::vector<doub
 	return true;
 }
 
-std::vector<std::vector<double> > SisLinear::lu(std::vector<std::vector<double> > a){
+
+/*Gera uma matriz com os valores das matrizes L e U mais o vetor de pivoteamento na última linha
+  Entradas: vector<std::vector<double> > a- matriz dos coeficientes do sistema linear
+  Saída:    vector<std::vector<double> > - matriz com LU, a última linha corresponde às permutações feitas
+  Autor:    Geraldo Braz*/
+std::vector<std::vector<double> > SisLinear::gerarLU(std::vector<std::vector<double> > a){
 	double mult;
 	std::vector<double> p;
 
@@ -42,8 +54,8 @@ std::vector<std::vector<double> > SisLinear::lu(std::vector<std::vector<double> 
 		p.push_back(i);
 
 	for(int i = 0; i < a.size()-1; i++){
-		
-		pivotear(a, p, i);
+		if(!pivotear(a, p, i))
+			throw std::runtime_error("Matriz é singular");
 
 		for(int j = i+1; j < a.size(); j++){
 			mult = a[j][i]/a[i][i];
@@ -52,6 +64,8 @@ std::vector<std::vector<double> > SisLinear::lu(std::vector<std::vector<double> 
 			a[j][i] = mult;
 		}
 	}
+
+	a.push_back(p);
 
 	return a;
 }
