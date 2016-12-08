@@ -2,7 +2,7 @@
 
 int main(){
 	int c;
-	std::vector<double> s1, aux, b;
+	std::vector<double> s1, aux, b, resp;
 	std::vector< std::vector<double> > r, mat; 
 
 	aux.push_back(30);
@@ -113,9 +113,15 @@ switch(c){
 		std::cout << "|" << std::endl;
 	}
 
-	std::cout << "---------- " << std::endl;
-	b = sl.usarLU(r, b);
-	for(int i = 0; i < b.size(); i++)
-			std::cout << b[i] << " ";
+	std::cout << "-----usarLU----- " << std::endl;
+	resp = sl.usarLU(r, b);
+	for(int i = 0; i < resp.size(); i++)
+			std::cout << resp[i] << " ";
+	std::cout << std::endl;
+
+	std::cout << "------calcularLU---- " << std::endl;
+	resp = sl.calcularLU(mat, b);
+	for(int i = 0; i < resp.size(); i++)
+			std::cout << resp[i] << " ";
 	std::cout << std::endl;
 }

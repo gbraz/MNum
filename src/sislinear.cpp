@@ -6,7 +6,7 @@ SisLinear::SisLinear(){
 
 
 /*Faz o pivoteamento de uma matriz 'mat', a partir da linha i 
-  Entradas: vector<std::vector<double> >& mat- matriz dos coeficientes, passada por referência
+  Entradas: vector<vector<double> >& mat- matriz dos coeficientes, passada por referência
             std::vector<double>& p - vetor com as posições trocadas das linhas da matriz 'mat'
             int i - linha que deve ser pivoteada
   Saída:    bool - false se a matriz é singular, true caso contrário
@@ -43,8 +43,8 @@ bool SisLinear::pivotear(std::vector<std::vector<double> >& mat, std::vector<dou
 
 
 /*Gera uma matriz com os valores das matrizes L e U mais o vetor de pivoteamento na última linha
-  Entradas: vector<std::vector<double> > a- matriz dos coeficientes do sistema linear
-  Saída:    vector<std::vector<double> > - matriz com LU, a última linha corresponde às permutações feitas
+  Entradas: vector<vector<double> > a- matriz dos coeficientes do sistema linear
+  Saída:    vector<vector<double> > - matriz com LU, a última linha corresponde às permutações feitas
   Autor:    Geraldo Braz*/
 std::vector<std::vector<double> > SisLinear::gerarLU(std::vector<std::vector<double> > a){
 	double mult;
@@ -71,8 +71,8 @@ std::vector<std::vector<double> > SisLinear::gerarLU(std::vector<std::vector<dou
 }
 
 
-/*Calcula o resultado de um sistema linear a partir de uma matriz LU e um vetor b
-  Entradas: vector<std::vector<double> > lu - matriz com os resultados de LU e o vetor de permutações na última linha
+/*Calcula o resultado de um sistema linear a partir de uma matriz LU e o vetor'b' dos termos independentes
+  Entradas: vector<vector<double> > lu - matriz com os resultados de LU e o vetor de permutações na última linha
   Saída:    vector<double> - resultado das variáveis
   Autor:    Geraldo Braz*/
 std::vector<double> SisLinear::usarLU(std::vector<std::vector<double> > lu, std::vector<double> b){
@@ -101,6 +101,21 @@ std::vector<double> SisLinear::usarLU(std::vector<std::vector<double> > lu, std:
 			soma = soma + x[j]*lu[i][j];
 		x[i] = (y[i] - soma)/lu[i][i];
 	}
+
+	return x;
+}
+
+/*Calcula o resultado de um sistema linear dada a matriz dos coeficientes 'a' e um vetor 'b' dos termos independentes
+  Entradas: vector<vector<double> > a - matriz dos coeficientes do sistema linear
+  			vector<double> b - vetor dos termos independentes
+  Saída:    vector<double> - resultado das variáveis
+  Autor:    Geraldo Braz*/
+std::vector<double> SisLinear::calcularLU(std::vector<std::vector<double> > a, std::vector<double> b){
+	std::vector<double> x;
+	std::vector<std::vector<double> > lu;
+
+	lu = gerarLU(a);
+	x = usarLU(lu, b);
 
 	return x;
 }
