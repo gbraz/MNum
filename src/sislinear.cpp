@@ -69,3 +69,38 @@ std::vector<std::vector<double> > SisLinear::gerarLU(std::vector<std::vector<dou
 
 	return a;
 }
+
+
+/*Calcula o resultado de um sistema linear a partir de uma matriz LU e um vetor b
+  Entradas: vector<std::vector<double> > lu - matriz com os resultados de LU e o vetor de permutações na última linha
+  Saída:    vector<double> - resultado das variáveis
+  Autor:    Geraldo Braz*/
+std::vector<double> SisLinear::usarLU(std::vector<std::vector<double> > lu, std::vector<double> b){
+	int r, tamanho;
+	double soma;
+	std::vector<double> c, y, x;
+
+	tamanho = lu.size() - 1;
+
+	for(int i = 0; i < tamanho; i++){
+		r = lu[lu.size() - 1][i];
+		c.push_back(b[r]);
+	}
+
+	for(int i = 0; i < tamanho; i++){
+		soma = 0;
+		for(int j = 0; j < i; j++)
+			soma = soma + y[j]*lu[i][j];
+		y.push_back(c[i] - soma);
+	}
+
+	x.resize(tamanho);
+	for(int i = tamanho-1; i >= 0; i--){
+		soma = 0;
+		for(int j = i+1; j < tamanho; j++)
+			soma = soma + x[j]*lu[i][j];
+		x[i] = (y[i] - soma)/lu[i][i];
+	}
+
+	return x;
+}

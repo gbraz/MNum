@@ -1,10 +1,21 @@
 #include "../header/sislinear.h"
 
 int main(){
-	
-	std::vector<double> s1, aux;
+	int c;
+	std::vector<double> s1, aux, b;
 	std::vector< std::vector<double> > r, mat; 
-/*	
+
+	aux.push_back(30);
+	aux.push_back(30);
+	aux.push_back(30);
+	aux.push_back(30);
+
+
+
+	c = 1;
+
+switch(c){
+	case 1:
 	s1.push_back(20);
 	s1.push_back(7);
 	s1.push_back(9);
@@ -19,15 +30,13 @@ int main(){
 	s1.push_back(8);
 	s1.push_back(30);
 	mat.push_back(s1);
-
-*/
-
-
-	aux.push_back(30);
-	aux.push_back(30);
-	aux.push_back(30);
-	aux.push_back(30);
-
+	
+	b.push_back(12);
+	b.push_back(12);
+	b.push_back(12);
+	break;
+	
+	case 2:
 	s1.push_back(2);
 	s1.push_back(2);
 	s1.push_back(1);
@@ -51,6 +60,34 @@ int main(){
 	s1.push_back(2);
 	s1.push_back(1);
 	mat.push_back(s1);
+	break;
+
+	case 3:
+	s1.push_back(3);
+	s1.push_back(-2);
+	s1.push_back(5);
+	s1.push_back(1);
+	mat.push_back(s1);
+	s1.clear();
+	s1.push_back(-6);
+	s1.push_back(4);
+	s1.push_back(-8);
+	s1.push_back(1);
+	mat.push_back(s1);
+	s1.clear();
+	s1.push_back(9);
+	s1.push_back(-6);
+	s1.push_back(19);
+	s1.push_back(1);
+	mat.push_back(s1);
+	s1.clear();
+	s1.push_back(6);
+	s1.push_back(-4);
+	s1.push_back(-6);
+	s1.push_back(15);
+	mat.push_back(s1);
+	break;
+}
 
 
 	aux = s1;
@@ -76,4 +113,9 @@ int main(){
 		std::cout << "|" << std::endl;
 	}
 
+	std::cout << "---------- " << std::endl;
+	b = sl.usarLU(r, b);
+	for(int i = 0; i < b.size(); i++)
+			std::cout << b[i] << " ";
+	std::cout << std::endl;
 }
