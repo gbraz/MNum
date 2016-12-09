@@ -1,3 +1,9 @@
+/*!
+    função que calcula as matrizes LU = A por método de Doolitle
+
+    autor: Rubens Anderson, 2016
+*/
+
 #include<iostream>
 #include<math.h>
 #include<vector>
@@ -72,7 +78,6 @@ void  dooli(vector < vector <double> > A, vector <double> b){
     for(int i = 1; i < n-1; i++){
         for(int j = i+1; j < n; j++){
 
-                cout << "       loop " << endl;
              somaU = 0;
              somaL = 0;
             for(int t = 0; t < i ; t++){
@@ -84,9 +89,6 @@ void  dooli(vector < vector <double> > A, vector <double> b){
                 somaL = 0;
             if(std::abs((long) somaU) <= 0.00001)
                 somaU = 0;
-
-            cout << "somaU = " << somaU << " em " << i << j << endl;
-            cout << "somaL = " << somaL << " em " << j << i << endl;
 
             U[j][i] = A[j][i] - somaU;
 
@@ -102,10 +104,6 @@ void  dooli(vector < vector <double> > A, vector <double> b){
 
               L[i][j] = (A[i][j] - somaL)/U[i][i];
 
-                cout << "modificou U" << endl;
-                escreveMatriz(U);
-                cout << "modificou L" << endl;
-                escreveMatriz(L);
         }
 
     }
@@ -115,11 +113,6 @@ void  dooli(vector < vector <double> > A, vector <double> b){
     }
 
     U[n-1][n-1] = A[n-1][n-1] - somaU;
-
-    cout << "modificou U" << endl;
-    escreveMatriz(U);
-cout << "modificou L" << endl;
-    escreveMatriz(L);
 
     //! achado L U, achar L^-1, b* e depois solucionar o sistema
 
@@ -140,13 +133,12 @@ cout << "modificou L" << endl;
         }
         b[i] = ac;
     }
-    cout << "modificou b" << endl;
-    escreveVector(b);
+
 }
 
 int main(int * narg, char ** argv){
 
-    cout << "Start" << endl;
+    //! matriz M = [c1, c2, c3, c4], ci vectors (colunas)
 
     vector < vector <double> > A;
     vector <double>  b;
