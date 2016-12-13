@@ -4,13 +4,13 @@
     autor: Rubens Anderson, 2016
 */
 
-#include<iostream>
-#include<math.h>
-#include<vector>
+#include "../header/doolittle.h"
 
 using namespace std;
 
-void escreveMatriz(vector < vector <double> > L){
+Doolittle::Doolittle(){}
+
+void Doolittle::escreveMatriz(vector < vector <double> > L){
      for(int i = 0; i < L[0].size(); i++){
 
         for(int j = 0; j < L.size(); j++){
@@ -23,16 +23,17 @@ void escreveMatriz(vector < vector <double> > L){
     cout <<L[0].size() << "x" << L.size() << endl;
 }
 
-void escreveVector(vector <double> L){
+void Doolittle::escreveVector(vector <double> L){
      for(int i = 0; i < L.size(); i++){
 
            cout << "    " << L[i] << endl;
     }
 }
 
-void  dooli(vector < vector <double> > A, vector <double> b){
+vector < vector <double> >  Doolittle::dooli(vector < vector <double> > A, vector <double> b){
     vector < vector <double> > L;
     vector < vector <double> > U;
+    vector <double> piv;
 
     int m = A[0].size();
     int n = A.size();
@@ -85,9 +86,9 @@ void  dooli(vector < vector <double> > A, vector <double> b){
                 somaL = somaL + L[t][j] * U[i][t];
             }
 
-            if(std::abs((long) somaL) <= 0.00001)
+            if(abs((long) somaL) <= 0.00001)
                 somaL = 0;
-            if(std::abs((long) somaU) <= 0.00001)
+            if(abs((long) somaU) <= 0.00001)
                 somaU = 0;
 
             U[j][i] = A[j][i] - somaU;
@@ -115,7 +116,7 @@ void  dooli(vector < vector <double> > A, vector <double> b){
     U[n-1][n-1] = A[n-1][n-1] - somaU;
 
     //! achado L U, achar L^-1, b* e depois solucionar o sistema
-
+    /*
     //L^-1
     for(int i = 1; i < L.size(); i++){
         for(int j = 0; j < i; j++){
@@ -133,10 +134,22 @@ void  dooli(vector < vector <double> > A, vector <double> b){
         }
         b[i] = ac;
     }
+    */
+    for(int i = 0; i < n; i++)
+        for(int j = i; j < n; j++)
+            L[i][j] = U[i][j];
+
+    for(int i = 0; i < n; i++)
+        piv.push_back(i);
+
+    L.push_back(piv);
+
+    return L;
+
 
 }
 
-int main(int * narg, char ** argv){
+/*int main(int * narg, char ** argv){
 
     //! matriz M = [c1, c2, c3, c4], ci vectors (colunas)
 
@@ -195,3 +208,4 @@ int main(int * narg, char ** argv){
 
     return 0;
 }
+*/

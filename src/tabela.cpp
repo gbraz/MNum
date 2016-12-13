@@ -1,9 +1,158 @@
 #include "../header/tabela.h"
-#include "../header/newton.h"
 
 Tabela::Tabela(){
 
 }
+
+void Tabela::receberAb(){
+	int n, aux;
+	bool flag = false;
+	char car;
+	std::vector< std::vector<double> > A, LU, dl;
+	std::vector<double> d, resultado1, resultado2;
+
+	while(flag == false){
+		system("clear");
+		std::cout << "+----------------LU/Doolittle---------------------+" << std::endl;
+		std::cout << "Entre com a ordem da matriz A:";
+		std::cin >> n;
+		std::cout << "Entre com a matriz A:";
+		std::cout << std::endl;
+		for(int i = 0; i < n; i++){
+			for(int j = 0; j < n; j++){
+				std::cout << "A[" << i << "][" << j << "]:";
+				std::cin >> aux;
+				d.push_back(aux);
+			}
+			A.push_back(d);
+			d.clear();
+		}
+		
+		std::cout << std::endl;
+		std::cout << "Entre com o vetor d:" << std::endl;
+		for(int i = 0; i < n; i++){
+			std::cout << "d[" << i << "]:";
+			std::cin >> aux;
+			d.push_back(aux);
+		}
+
+		system("clear");
+		std::cout << "+----------------LU/Doolittle---------------------+" << std::endl;
+		
+		std::cout << "Matriz A:" << std::endl;;
+		for(int i = 0; i < n; i++){
+			std::cout << "|";
+			for(int j = 0; j < n-1; j++)
+				std::cout << A[i][j] << " ";
+			std::cout << A[i][n-1] << "|" << std::endl;
+		}
+
+		std::cout << std::endl;
+		std::cout << "Vetor d:" << std::endl;
+		std::cout << "[";
+		for(int i = 0; i < n - 1; i++)
+			std::cout << d[i] << " " ;
+		std::cout << d[n-1] << "]" << std::endl;
+		
+		std::cout << std::endl;
+		std::cout << "Confirmar?(S/N)" << std::endl;
+		std::cin >> car;
+		if(car == 'S' || car == 's')
+			flag = true;
+	}
+
+		
+	system("clear");	
+	std::cout << "+----------------LU/Doolittle---------------------+" << std::endl;
+	
+	std::cout << "Matriz A:" << std::endl;;
+	for(int i = 0; i < n; i++){
+		std::cout << "|";
+		for(int j = 0; j < n-1; j++)
+			std::cout << A[i][j] << " ";
+		std::cout << A[i][n-1] << "|" << std::endl;
+	}
+
+	std::cout << std::endl;
+	std::cout << "Vetor d:" << std::endl;
+	std::cout << "[";
+	for(int i = 0; i < n - 1; i++)
+		std::cout << d[i] << " " ;
+	std::cout << d[n-1] << "]" << std::endl;
+	
+	std::cout << std::endl;
+	std::cout << "1 - LU" << std::endl;
+	std::cout << "2 - Doolittle" << std::endl;
+	std::cout << "3 - Comparar" << std::endl;
+	std::cout << "Aplicar:";
+	std::cin >> aux;
+
+	switch(aux){
+		case 1:
+			resultado1 = SisLinear::calcularLU(A, d);
+			break;
+		case 2:
+			dl = Doolittle::dooli(A, d);
+			break;
+		case 3:
+			LU = SisLinear::gerarLU(A);
+			dl = Doolittle::dooli(A, d);
+			resultado1 = SisLinear::usarLU(LU, d);
+			resultado2 = SisLinear::usarLU(dl, d);
+			break;
+	}
+
+
+	system("clear");
+	std::cout << "+----------------LU/Doolittle---------------------+" << std::endl;
+	if(aux == 3){
+		
+		std::cout << std::endl;
+		std::cout << "+-------------------Método LU--------------------+" << std::endl;
+		
+		std::cout << "Matriz LU:" << std::endl;;
+		for(int i = 0; i < n; i++){
+			std::cout << "|";
+			for(int j = 0; j < n-1; j++)
+				printf("%15.10f ", LU[i][j]);
+				//std::cout << LU[i][j] << " ";
+			printf("%15.10f|\n", LU[i][n-1]);
+			//std::cout << LU[i][n-1] << "|" << std::endl;
+		}
+		
+		std::cout << "Resultado: ";
+		std::cout << "[";
+		for(int i = 0; i < n - 1; i++)
+			std::cout << resultado1[i] << " " ;
+		std::cout << d[n-1] << "]" << std::endl;
+		std::cout << std::endl;
+		std::cout << std::endl;
+		
+		std::cout << "+-------------------Método Doolittle-------------+" << std::endl;
+		
+		std::cout << "Matriz LU:" << std::endl;;
+		for(int i = 0; i < n; i++){
+			std::cout << "|";
+			for(int j = 0; j < n-1; j++)
+				printf("%15.10f ", dl[i][j]);
+				//std::cout << LU[i][j] << " ";
+			printf("%15.10f\n|", dl[i][n-1]);
+			//std::cout << LU[i][n-1] << "|" << std::endl;
+		}
+		
+		std::cout << "Resultado: ";
+		std::cout << "[";
+		for(int i = 0; i < n - 1; i++)
+			std::cout << resultado2[i] << " " ;
+		std::cout << d[n-1] << "]" << std::endl;
+		std::cout << std::endl;
+	}
+	
+
+
+
+}
+
 /*Interface simples para entrada de coeficientes
   Autor:    Geraldo Braz*/
 void Tabela::receberPolinomio(){
