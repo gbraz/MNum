@@ -32,8 +32,8 @@ void Doolittle::escreveVector(vector <double> L){
 
 vector < vector <double> >  Doolittle::dooli(vector < vector <double> > A, vector <double> b){
     vector < vector <double> > L;
-    vector < vector <double> > U;
-    vector <double> piv;
+    vector < vector <double> > U, res;
+    vector <double> piv, aux;
 
     int m = A[0].size();
     int n = A.size();
@@ -135,17 +135,38 @@ vector < vector <double> >  Doolittle::dooli(vector < vector <double> > A, vecto
         b[i] = ac;
     }
     */
+    escreveMatriz(U);
+    escreveMatriz(L);
     for(int i = 0; i < n; i++)
-        for(int j = i; j < n; j++)
-            L[i][j] = U[i][j];
+        for(int j = i; j < n; j++){
+            cout << L[i][j] << endl;
+            L[j][i] = U[j][i];
+            cout << L[i][j] << " " << U[i][j] << endl;
+        }
 
+    escreveMatriz(U);
+    escreveMatriz(L);
+
+    int a;
+
+
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < n; j++)
+            aux.push_back(L[j][i]);
+        res.push_back(aux);
+        aux.clear();
+        for(int j = 0; j < n; j++)
+            cout << aux[j] << " ";
+    }
+
+    escreveMatriz(res);
+    //cin >> a; 
     for(int i = 0; i < n; i++)
         piv.push_back(i);
+    res.push_back(piv);
 
-    L.push_back(piv);
 
-    return L;
-
+    return res;
 
 }
 

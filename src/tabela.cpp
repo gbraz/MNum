@@ -93,6 +93,7 @@ void Tabela::receberAb(){
 			break;
 		case 2:
 			dl = Doolittle::dooli(A, d);
+			resultado2 = SisLinear::usarLU(dl, d);
 			break;
 		case 3:
 			LU = SisLinear::gerarLU(A);
@@ -108,7 +109,7 @@ void Tabela::receberAb(){
 	if(aux == 3){
 		
 		std::cout << std::endl;
-		std::cout << "+-------------------Método LU--------------------+" << std::endl;
+		std::cout << "+-----------------Método LU-----------------------+" << std::endl;
 		
 		std::cout << "Matriz LU:" << std::endl;;
 		for(int i = 0; i < n; i++){
@@ -128,7 +129,7 @@ void Tabela::receberAb(){
 		std::cout << std::endl;
 		std::cout << std::endl;
 		
-		std::cout << "+-------------------Método Doolittle-------------+" << std::endl;
+		std::cout << "+-----------------Método Doolittle----------------+" << std::endl;
 		
 		std::cout << "Matriz LU:" << std::endl;;
 		for(int i = 0; i < n; i++){
@@ -136,17 +137,60 @@ void Tabela::receberAb(){
 			for(int j = 0; j < n-1; j++)
 				printf("%15.10f ", dl[i][j]);
 				//std::cout << LU[i][j] << " ";
-			printf("%15.10f\n|", dl[i][n-1]);
+			printf("%15.10f|\n", dl[i][n-1]);
 			//std::cout << LU[i][n-1] << "|" << std::endl;
 		}
 		
-		std::cout << "Resultado: ";
+		std::cout << "Resultado c: ";
 		std::cout << "[";
 		for(int i = 0; i < n - 1; i++)
 			std::cout << resultado2[i] << " " ;
 		std::cout << d[n-1] << "]" << std::endl;
 		std::cout << std::endl;
 	}
+	else
+		if(aux == 1){
+			std::cout << std::endl;
+			std::cout << "+-----------------Método LU-----------------------+" << std::endl;
+			std::cout << "Matriz LU:" << std::endl;;
+			for(int i = 0; i < n; i++){
+				std::cout << "|";
+				for(int j = 0; j < n-1; j++)
+					printf("%15.10f ", LU[i][j]);
+					//std::cout << LU[i][j] << " ";
+				printf("%15.10f|\n", LU[i][n-1]);
+				//std::cout << LU[i][n-1] << "|" << std::endl;
+			}
+
+			std::cout << "Resultado c: ";
+			std::cout << "[";
+			for(int i = 0; i < n - 1; i++)
+				std::cout << resultado1[i] << " " ;
+			std::cout << d[n-1] << "]" << std::endl;
+			std::cout << std::endl;
+			std::cout << std::endl;
+		}
+		else
+			if(aux == 2){
+				std::cout << "+-----------------Método Doolittle----------------+" << std::endl;
+		
+				std::cout << "Matriz LU:" << std::endl;;
+				for(int i = 0; i < n; i++){
+					std::cout << "|";
+					for(int j = 0; j < n-1; j++)
+						printf("%15.10f ", dl[i][j]);
+						//std::cout << LU[i][j] << " ";
+					printf("%15.10f|\n", dl[i][n-1]);
+					//std::cout << LU[i][n-1] << "|" << std::endl;
+				}
+				
+				std::cout << "Resultado c: ";
+				std::cout << "[";
+				for(int i = 0; i < n - 1; i++)
+					std::cout << resultado2[i] << " " ;
+				std::cout << d[n-1] << "]" << std::endl;
+				std::cout << std::endl;	
+			}
 	
 
 
